@@ -1,0 +1,72 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Ticket;
+use Illuminate\Http\Request;
+
+class TicketController extends Controller
+{
+    public function index()
+    {
+        $tickets = Ticket::all();
+        return view('ticket.index', compact('tickets'));
+    }
+
+    public function create()
+    {
+        return view('ticket.add');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'date' => 'required|date',
+            'duree' => 'required|integer',
+        ]);
+
+        $ticket = new Ticket();
+        $ticket->user_id = auth()->user()->id;
+        $ticket->title = $request->title;
+        $ticket->description = $request->description;
+        $ticket->date = $request->date;
+        $ticket->duree = $request->duree;
+        $ticket->save();
+        return redirect()->route('ticket.index');
+    }
+
+    public function edit(Ticket $ticket)
+    {
+        return view('ticket.edit', compact('ticket'));
+    }
+
+    public function update(Request $request, Ticket $ticket) {
+
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'date' => 'required|date',
+            'duree' => 'required|integer',
+        ]);
+        $ticket->title = $request->title;
+        $ticket->description = $request->description;
+        $ticket->date = $request->date;
+        $ticket->duree = $request->duree;
+        $ticket->save();
+        return redirect()->route('ticket.index');
+
+    }
+
+    public function show(Ticket $ticket)
+    {
+        return view('ticket.show', compact('ticket'));
+    }
+
+    public function destroy(Ticket $ticket)
+    {
+        $ticket->delete();
+        return redirect()->route('ticket.index');
+    }
+}
