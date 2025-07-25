@@ -39,11 +39,12 @@ class TicketController extends Controller
 
     public function edit(Ticket $ticket)
     {
+        $this->authorize('update', $ticket);
         return view('ticket.edit', compact('ticket'));
     }
 
     public function update(Request $request, Ticket $ticket) {
-
+        $this->authorize('update', $ticket);
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -66,6 +67,7 @@ class TicketController extends Controller
 
     public function destroy(Ticket $ticket)
     {
+        $this->authorize('delete', $ticket);
         $ticket->delete();
         return redirect()->route('ticket.index');
     }
