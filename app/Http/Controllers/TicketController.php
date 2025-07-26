@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use App\Policies\TicketPolicy;
 
 class TicketController extends Controller
 {
     public function index()
     {
-        $tickets = Ticket::all();
+        $tickets = Ticket::all()->load('user'); // Load the user relationship to access user details
+        // $user = auth()->user();
+        // $tickets = $user->isAdmin() ? Ticket::all() : Ticket::where('user_id', $user->id)->get();
         return view('ticket.index', compact('tickets'));
     }
 
@@ -71,4 +74,11 @@ class TicketController extends Controller
         $ticket->delete();
         return redirect()->route('ticket.index');
     }
+
+    // à ajouter dans la vue show ou index en fontion de l'entreprise
+
+    // public function salaire(Ticket $ticket)
+    // {
+    //     return $ticket->salaire();
+    // }
 }

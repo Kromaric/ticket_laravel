@@ -11,20 +11,26 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th>N°</th>
+                        <th>Ressource</th>
                         <th>Titre</th>
                         <th>Description</th>
                         <th>Date</th>
                         <th>Durée</th>
+                        <th>Salaire</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($tickets as $ticket)
                         <tr>
+                            <td>{{ $ticket->id }}</td>
+                            <td>{{ $ticket->user->name }}</td>
                             <td>{{ $ticket->title }}</td>
                             <td>{{ $ticket->description }}</td>
                             <td>{{ $ticket->date }}</td>
                             <td>{{ $ticket->duree }}</td>
+                            <td>{{ $ticket->salaire() }}</td>
                             <td>
                                 <a href="{{ route('ticket.edit', $ticket) }}" class="btn btn-warning">Modifier</a>
                                 <!-- Form for deleting a ticket -->
