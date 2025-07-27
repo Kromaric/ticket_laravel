@@ -18,6 +18,20 @@
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
 
+            @auth
+                @if(auth()->user()->isAdmin())
+                    <nav class="bg-gray-200 py-2 px-4 mb-4">
+                        <ul class="flex space-x-4">
+                            <li><a href="{{ route('admin.index') }}" class="text-blue-700 font-semibold">Tableau de bord</a></li>
+                            <li><a href="{{ route('admin.paie') }}" class="text-blue-700 font-semibold">Paie utilisateurs</a></li>
+                            {{-- <li><a href="{{ route('admin.users') }}" class="text-blue-700 font-semibold">Utilisateurs</a></li>
+                            <li><a href="{{ route('admin.tickets') }}" class="text-blue-700 font-semibold">Tickets</a></li> --}}
+                            {{-- Ajoute d'autres liens selon tes besoins --}}
+                        </ul>
+                    </nav>
+                @endif
+            @endauth
+
             <!-- Page Heading -->
             @isset($header)
                 <header class="bg-white shadow">

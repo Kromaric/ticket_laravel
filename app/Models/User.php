@@ -60,4 +60,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Ticket::class);
     }
+    public function salaire()
+    {
+        return $this->tickets->sum(function ($ticket) {
+            return $ticket->salaire();
+        });
+    }
 }

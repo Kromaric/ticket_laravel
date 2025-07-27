@@ -13,6 +13,7 @@ class Ticket extends Model
         'date',
         'duree',
         'user_id',
+        'status', 
     ];
 
     public function user(): BelongsTo
@@ -22,7 +23,7 @@ class Ticket extends Model
 
     public function salaire()
     {
-        
+
         return $this->duree * ($this->user->taux_horaire ?? 0);
     }
 }

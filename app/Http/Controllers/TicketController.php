@@ -28,6 +28,7 @@ class TicketController extends Controller
             'description' => 'required|string',
             'date' => 'required|date',
             'duree' => 'required|integer',
+            'status' => 'required|in:ouvert,ferme',
         ]);
 
         $ticket = new Ticket();
@@ -53,6 +54,7 @@ class TicketController extends Controller
             'description' => 'required|string',
             'date' => 'required|date',
             'duree' => 'required|integer',
+            'status' => 'required|in:ouvert,ferme',
         ]);
         $ticket->title = $request->title;
         $ticket->description = $request->description;
