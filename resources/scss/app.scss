@@ -1,0 +1,16 @@
+@import "~bootstrap/scss/bootstrap";
+@import "variables"; // si tu veux utiliser les variables du thème
+@import "sb-admin-2"; // ou importe les fichiers nécessaires du thème
+
+// Tu peux aussi importer les autres fichiers du dossier scss
+@import "buttons";
+@import "cards";
+@import "charts";
+@import "dropdowns";
+@import "error";
+@import "footer";
+@import "global";
+@import "login";
+@import "mixins";
+@import "navs";
+
