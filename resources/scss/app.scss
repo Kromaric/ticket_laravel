@@ -1,4 +1,4 @@
-@import "~bootstrap/scss/bootstrap";
+@import "bootstrap/scss/bootstrap";
 @import "variables"; // si tu veux utiliser les variables du thème
 @import "sb-admin-2"; // ou importe les fichiers nécessaires du thème
 
@@ -13,4 +13,6 @@
 @import "login";
 @import "mixins";
 @import "navs";
+
+@import '../css/app.css';
 

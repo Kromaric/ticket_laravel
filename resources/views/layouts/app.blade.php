@@ -1,51 +1,93 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <title>{{ config('app.name', 'Laravel Dashboard') }}</title>
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'ressources/scss/app.scss', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+    <!-- Fonts -->
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-            @auth
-                @if(auth()->user()->isAdmin())
-                    <nav class="bg-gray-200 py-2 px-4 mb-4">
-                        <ul class="flex space-x-4">
-                            <li><a href="{{ route('admin.index') }}" class="text-blue-700 font-semibold">Tableau de bord</a></li>
-                            <li><a href="{{ route('admin.paie') }}" class="text-blue-700 font-semibold">Paie utilisateurs</a></li>
-                            {{-- <li><a href="{{ route('admin.users') }}" class="text-blue-700 font-semibold">Utilisateurs</a></li>
-                            <li><a href="{{ route('admin.tickets') }}" class="text-blue-700 font-semibold">Tickets</a></li> --}}
-                            {{-- Ajoute d'autres liens selon tes besoins --}}
-                        </ul>
-                    </nav>
-                @endif
-            @endauth
+    <!-- SB Admin 2 CSS -->
+    <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/sb-admin-2.css') }}" rel="stylesheet">
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
+    <!-- Laravel Vite -->
+    @vite(['resources/scss/app.scss', 'resources/js/app.js'])
+</head>
 
-            <!-- Page Content -->
-            <main>
-                {{-- {{ $slot }} --}}
-                @yield('content')
-            </main>
+<body id="page-top" class="font-sans antialiased">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        @include('partials.sidebar')
+        <!-- End Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <!-- Topbar -->
+                @include('partials.topbar')
+                <!-- End Topbar -->
+
+                <!-- Page Heading -->
+                @isset($header)
+                    <header class="bg-white shadow mb-4">
+                        <div class="container-fluid py-3 px-4">
+                            {{ $header }}
+                        </div>
+                    </header>
+                @endisset
+
+                <!-- Main Content -->
+                <main class="container-fluid">
+                    @yield('content')
+                </main>
+            </div>
+
+            <!-- Footer -->
+            @include('partials.footer')
+            <!-- End Footer -->
         </div>
-    </body>
+    </div>
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" href="{{ route('login') }}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+    <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
+    <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
+    <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
+</body>
+
 </html>
