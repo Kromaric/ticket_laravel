@@ -24,7 +24,14 @@
 <body id="page-top" class="font-sans antialiased">
     <div id="wrapper">
         <!-- Sidebar -->
-        @include('partials.sidebar')
+        @auth
+            @if (auth()->user()->isAdmin())
+                @include('partials.sidebar-admin')
+            @else
+                @include('partials.sidebar-user')
+            @endif
+        @endauth
+
         <!-- End Sidebar -->
 
         <!-- Content Wrapper -->
