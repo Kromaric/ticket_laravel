@@ -9,9 +9,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
+        if (auth()->user()->isAdmin()) {
+            return redirect()->route('admin.index');
+        }
+        else {
+            return redirect()->route('ticket.index');
+        }
+    })->name('dashboard');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -20,6 +27,7 @@ Route::middleware('auth')->group(function () {
 
     // Utilisation de la route resource pour les tickets
     Route::resource('/ticket', TicketController::class);
+    Route::get('/my-tickets', [TicketController::class, 'mytickets'])->name('ticket.mytickets');
 
 });
 

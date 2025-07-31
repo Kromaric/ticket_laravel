@@ -16,6 +16,13 @@ class TicketController extends Controller
         return view('ticket.index', compact('tickets'));
     }
 
+    public function mytickets()
+    {
+        $user = auth()->user();
+        $tickets = Ticket::where('user_id', $user->id)->get();
+        return view('ticket.mytickets', compact('tickets'));
+    }
+
     public function create()
     {
         return view('ticket.add');

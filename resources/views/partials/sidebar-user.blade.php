@@ -1,7 +1,7 @@
 <ul class="navbar-nav bg-gradient-success sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard') }}">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('ticket.index') }}">
         <div class="sidebar-brand-icon">
             <i class="fas fa-ticket-alt"></i>
         </div>
@@ -11,8 +11,8 @@
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
-    <li class="nav-item {{ Request::routeIs('dashboard') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('dashboard') }}">
+    <li class="nav-item {{ Request::routeIs('ticket.index') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('ticket.index') }}">
             <i class="fas fa-fw fa-home"></i>
             <span>Accueil</span>
         </a>
@@ -25,8 +25,8 @@
         </a>
     </li>
 
-    <li class="nav-item {{ Request::routeIs('ticket.index') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('ticket.index') }}">
+    <li class="nav-item {{ Request::routeIs('ticket.mytickets') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('ticket.mytickets') }}">
             <i class="fas fa-fw fa-folder-open"></i>
             <span>Mes tickets</span>
         </a>
