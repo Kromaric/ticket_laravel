@@ -25,10 +25,10 @@
         </a>
     </li>
 
-    <li class="nav-item {{ Request::routeIs('ticket.mytickets') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('ticket.mytickets') }}">
+    <li class="nav-item {{ Request::routeIs('ticket.ticketslist') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('ticket.ticketslist') }}">
             <i class="fas fa-fw fa-folder-open"></i>
-            <span>Mes tickets</span>
+            <span>Liste des tickets</span>
         </a>
     </li>
 

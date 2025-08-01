@@ -27,7 +27,7 @@ Route::middleware('auth')->group(function () {
 
     // Utilisation de la route resource pour les tickets
     Route::resource('/ticket', TicketController::class);
-    Route::get('/my-tickets', [TicketController::class, 'mytickets'])->name('ticket.mytickets');
+    Route::get('/tickets-list', [TicketController::class, 'ticketslist'])->name('ticket.ticketslist');
 
 });
 

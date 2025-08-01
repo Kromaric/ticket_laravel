@@ -10,17 +10,20 @@ class TicketController extends Controller
 {
     public function index()
     {
-        $tickets = Ticket::all()->load('user'); // Load the user relationship to access user details
-        // $user = auth()->user();
-        // $tickets = $user->isAdmin() ? Ticket::all() : Ticket::where('user_id', $user->id)->get();
-        return view('ticket.index', compact('tickets'));
-    }
-
-    public function mytickets()
-    {
+        
         $user = auth()->user();
         $tickets = Ticket::where('user_id', $user->id)->get();
-        return view('ticket.mytickets', compact('tickets'));
+        $totalTickets = $tickets->count();
+        $ticketsPending = $tickets->where('status', 'pending')->count();
+        $ticketsOuverts = $tickets->where('status', 'ouvert')->count();
+        $ticketsFermes = $tickets->where('status', 'ferme')->count();
+        return view('ticket.index', compact('tickets', 'totalTickets', 'ticketsPending', 'ticketsOuverts', 'ticketsFermes'));
+    }
+
+    public function ticketslist()
+    {
+        $tickets = Ticket::all()->load('user'); // Load the user relationship to access user details
+        return view('ticket.list', compact('tickets'));
     }
 
     public function create()
@@ -35,7 +38,7 @@ class TicketController extends Controller
             'description' => 'required|string',
             'date' => 'required|date',
             'duree' => 'required|integer',
-            'status' => 'required|in:ouvert,ferme',
+            'status' => 'required|in:pending,ouvert,ferme',
         ]);
 
         $ticket = new Ticket();
@@ -61,7 +64,7 @@ class TicketController extends Controller
             'description' => 'required|string',
             'date' => 'required|date',
             'duree' => 'required|integer',
-            'status' => 'required|in:ouvert,ferme',
+            'status' => 'required|in:pending,ouvert,ferme',
         ]);
         $ticket->title = $request->title;
         $ticket->description = $request->description;

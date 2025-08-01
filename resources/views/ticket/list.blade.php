@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
-
 @section('content')
-    <!--Ticket DataTales -->
+<!--Ticket DataTales -->
     <div class="card shadow mb-4">
         <div class="card-header pt-3">
             <div class="row">
@@ -19,6 +18,7 @@
                     <thead>
                         <tr>
                             <th>N°</th>
+                            <th>Ressource</th>
                             <th>Titre</th>
                             <th>Description</th>
                             <th>Date</th>
@@ -31,6 +31,7 @@
                          @foreach ($tickets as $ticket)
                             <tr>
                                 <td>{{ $ticket->id }}</td>
+                                <td>{{ $ticket->user->name }}</td>
                                 <td>{{ $ticket->title }}</td>
                                 <td>{{ $ticket->description }}</td>
                                 <td>{{ $ticket->date }}</td>

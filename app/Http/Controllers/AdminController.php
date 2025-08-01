@@ -14,6 +14,7 @@ class AdminController extends Controller
         $tickets = Ticket::with('user')->get();
         $users = User::all();
         $totalTickets = $tickets->count();
+        $ticketsPending = $tickets->where('status', 'pending')->count();
         $ticketsOuverts = $tickets->where('status', 'ouvert')->count();
         $ticketsFermes = $tickets->where('status', 'ferme')->count();
         $heuresTotales = $tickets->sum('duree');
@@ -22,7 +23,7 @@ class AdminController extends Controller
         });
 
         return view('admin.index', compact(
-            'tickets', 'users', 'totalTickets', 'ticketsOuverts', 'ticketsFermes', 'heuresTotales', 'salaireTotal'
+            'tickets', 'users', 'totalTickets', 'ticketsPending', 'ticketsOuverts', 'ticketsFermes', 'heuresTotales', 'salaireTotal'
         ));
     }
 
