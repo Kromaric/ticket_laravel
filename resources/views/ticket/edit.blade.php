@@ -24,6 +24,14 @@
                     <label for="duree">Duree</label>
                     <input type="number" class="form-control" id="duree" name="duree" value="{{ $ticket->duree }}" placeholder="Entrez la duree">
                 </div>
+                 <div class="form-group">
+                <label for="status">Statut</label>
+                <select name="status" id="status" class="form-control" required>
+                    <option value="pending" {{ $ticket->status === 'pending' ? 'selected' : '' }}>En attente</option>
+                    <option value="ouvert" {{ $ticket->status === 'ouvert' ? 'selected' : '' }}>Ouvert</option>
+                    <option value="ferme" {{ $ticket->status === 'ferme' ? 'selected' : '' }}>Fermé</option>
+                </select>
+            </div>
                 <button type="submit" class="btn btn-primary">Modifier</button>
             </div>
         </form>

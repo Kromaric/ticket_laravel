@@ -10,7 +10,7 @@ class TicketController extends Controller
 {
     public function index()
     {
-        
+
         $user = auth()->user();
         $tickets = Ticket::where('user_id', $user->id)->get();
         $totalTickets = $tickets->count();
@@ -47,6 +47,7 @@ class TicketController extends Controller
         $ticket->description = $request->description;
         $ticket->date = $request->date;
         $ticket->duree = $request->duree;
+        $ticket->status = $request->status; 
         $ticket->save();
         return redirect()->route('ticket.index');
     }
@@ -70,6 +71,7 @@ class TicketController extends Controller
         $ticket->description = $request->description;
         $ticket->date = $request->date;
         $ticket->duree = $request->duree;
+        $ticket->status = $request->status;
         $ticket->save();
         return redirect()->route('ticket.index');
 

@@ -35,6 +35,7 @@
                             <th>Date</th>
                             <th>Durée</th>
                             <th>Salaire</th>
+                            <th>Statut</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -47,6 +48,7 @@
                                 <td>{{ $ticket->date }}</td>
                                 <td>{{ $ticket->duree }}</td>
                                 <td>{{ $ticket->salaire() }}</td>
+                                <td>{{ $ticket->status }}</td>
                                 <td>
                                     <a href="{{ route('ticket.edit', $ticket) }}" class="btn btn-primary">Modifier</a>
                                     <!-- Form for deleting a ticket -->
