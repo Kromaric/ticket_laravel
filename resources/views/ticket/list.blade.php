@@ -23,7 +23,7 @@
                             <th>Description</th>
                             <th>Date</th>
                             <th>Durée</th>
-                            <th>Salaire</th>
+                            {{-- <th>Salaire</th> --}}
                             <th>Statut</th>
                             <th>Actions</th>
                         </tr>
@@ -35,9 +35,9 @@
                                 <td>{{ $ticket->user->name }}</td>
                                 <td>{{ $ticket->title }}</td>
                                 <td>{{ $ticket->description }}</td>
-                                <td>{{ $ticket->date }}</td>
+                                <td>{{ $ticket->date->format('d M Y') }}</td>
                                 <td>{{ $ticket->duree }}</td>
-                                <td>{{ $ticket->salaire() }}</td>
+                                {{-- <td>{{ $ticket->salaire() }}</td> --}}
                                 <td>{{ $ticket->status }}</td>
                                 <td>
                                     <a href="{{ route('ticket.edit', $ticket) }}" class="btn btn-primary">Modifier</a>
@@ -48,7 +48,7 @@
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger">Supprimer</button>
                                     </form>
-                                </td>
+                                {{-- </td> --}}
                             </tr>
                         @endforeach
                     </tbody>

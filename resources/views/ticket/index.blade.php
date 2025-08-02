@@ -45,7 +45,7 @@
                                 <td>{{ $ticket->id }}</td>
                                 <td>{{ $ticket->title }}</td>
                                 <td>{{ $ticket->description }}</td>
-                                <td>{{ $ticket->date }}</td>
+                                <td>{{ $ticket->date->format('d M Y') }}</td>
                                 <td>{{ $ticket->duree }}</td>
                                 <td>{{ $ticket->salaire() }}</td>
                                 <td>{{ $ticket->status }}</td>

@@ -13,8 +13,12 @@ class Ticket extends Model
         'date',
         'duree',
         'user_id',
-        'status', 
+        'status',
     ];
+
+    protected $casts = [
+    'date' => 'datetime',
+];
 
     public function user(): BelongsTo
     {
