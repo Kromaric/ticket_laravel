@@ -6,7 +6,7 @@
         <div class="card-header pt-3">
             <div class="row">
                 <div class="col">
-                    <h5 class="font-weight-bold text-primary float-left">Liste des tickets</h5>
+                    <h5 class="font-weight-bold text-primary float-left">Liste des tickets du système</h5>
                 </div>
                 <div class="col">
                     <a href="{{ route('ticket.create') }}" class="btn btn-primary float-right">Add New</a>
@@ -33,8 +33,10 @@
                             <tr>
                                 <td>{{ $ticket->id }}</td>
                                 <td>{{ $ticket->user->name }}</td>
-                                <td>{{ $ticket->title }}</td>
-                                <td>{{ $ticket->description }}</td>
+                                <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                    <a href="{{ route('ticket.show', $ticket) }}" style="text-decoration: none;">{{ $ticket->title}}</a>
+                                </td>
+                                <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $ticket->description}}</td>
                                 <td>{{ $ticket->date->format('d M Y') }}</td>
                                 <td>{{ $ticket->duree }}</td>
                                 {{-- <td>{{ $ticket->salaire() }}</td> --}}
@@ -48,7 +50,7 @@
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger">Supprimer</button>
                                     </form>
-                                {{-- </td> --}}
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

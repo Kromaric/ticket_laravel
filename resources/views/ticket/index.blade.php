@@ -23,6 +23,7 @@
                 <div class="col">
                     <a href="{{ route('ticket.create') }}" class="btn btn-primary float-right">Add New</a>
                 </div>
+            </div>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -43,8 +44,10 @@
                          @foreach ($tickets as $ticket)
                             <tr>
                                 <td>{{ $ticket->id }}</td>
-                                <td>{{ $ticket->title }}</td>
-                                <td>{{ $ticket->description }}</td>
+                                <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                    <a href="{{ route('ticket.show', $ticket) }}" style="text-decoration: none;">{{ $ticket->title}}</a>
+                                </td>
+                                <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $ticket->description }}</td>
                                 <td>{{ $ticket->date->format('d M Y') }}</td>
                                 <td>{{ $ticket->duree }}</td>
                                 <td>{{ $ticket->salaire() }}</td>
