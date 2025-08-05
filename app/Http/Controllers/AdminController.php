@@ -27,7 +27,88 @@ class AdminController extends Controller
         ));
     }
 
-    // Vue paie utilisateurs
+    // Liste des tickets
+    public function tickets()
+    {
+        $tickets = Ticket::with('user')->get();
+        return view('admin.tickets', compact('tickets'));
+    }
+
+    // Modifier un ticket
+    public function editTicket(Ticket $ticket)
+    {
+        return view('admin.edit-ticket', compact('ticket'));
+    }
+
+    // Mettre à jour un ticket
+    public function updateTicket(Request $request, Ticket $ticket)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'date' => 'required|date',
+            'duree' => 'required|integer|min:0',
+            'status' => 'required|string',
+        ]);
+        $ticket->update($request->only('title', 'description', 'date', 'duree', 'status'));
+        return redirect()->route('admin.tickets')->with('success', 'Ticket mis à jour');
+    }
+
+    // Supprimer un ticket
+    public function destroyTicket(Ticket $ticket)
+    {
+        $ticket->delete();
+        return redirect()->route('admin.tickets')->with('success', 'Ticket supprimé');
+    }
+
+
+    // Tickets ouverts
+public function ticketsOuverts()
+{
+    $tickets = Ticket::with('user')->where('status', 'ouvert')->get();
+    return view('admin.tickets-ouverts', compact('tickets'));
+}
+
+// Tickets fermés
+public function ticketsFermes()
+{
+    $tickets = Ticket::with('user')->where('status', 'ferme')->get();
+    return view('admin.tickets-fermes', compact('tickets'));
+}
+
+// Tickets en attente
+public function ticketsPending()
+{
+    $tickets = Ticket::with('user')->where('status', 'pending')->get();
+    return view('admin.tickets-attentes', compact('tickets'));
+}
+// Statistiques générales
+public function statsOverview()
+{
+    $totalTickets = Ticket::count();
+    $totalUsers = User::count();
+    $heuresTotales = Ticket::sum('duree');
+
+    return view('admin.stats-overview', compact('totalTickets', 'totalUsers', 'heuresTotales'));
+}
+
+// Statistiques par utilisateur
+public function statsUsers()
+{
+    $users = User::with('tickets')->get();
+    return view('admin.stats-users', compact('users'));
+}
+
+// Statistiques par ticket
+public function statsTickets()
+{
+    $tickets = Ticket::with('user')->get();
+    return view('admin.stats-tickets', compact('tickets'));
+}
+
+#################### GESTION DES UTILISATEURS #########################
+
+// Vue paie utilisateurs
     public function paie()
     {
         $users = User::with('tickets')->get();
@@ -67,37 +148,4 @@ class AdminController extends Controller
         return redirect()->route('admin.users')->with('success', 'Utilisateur supprimé');
     }
 
-    // Liste des tickets
-    public function tickets()
-    {
-        $tickets = Ticket::with('user')->get();
-        return view('admin.tickets', compact('tickets'));
-    }
-
-    // Modifier un ticket
-    public function editTicket(Ticket $ticket)
-    {
-        return view('admin.edit-ticket', compact('ticket'));
-    }
-
-    // Mettre à jour un ticket
-    public function updateTicket(Request $request, Ticket $ticket)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'date' => 'required|date',
-            'duree' => 'required|integer|min:0',
-            'status' => 'required|string',
-        ]);
-        $ticket->update($request->only('title', 'description', 'date', 'duree', 'status'));
-        return redirect()->route('admin.tickets')->with('success', 'Ticket mis à jour');
-    }
-
-    // Supprimer un ticket
-    public function destroyTicket(Ticket $ticket)
-    {
-        $ticket->delete();
-        return redirect()->route('admin.tickets')->with('success', 'Ticket supprimé');
-    }
 }
