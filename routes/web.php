@@ -33,9 +33,24 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
-    Route::get('/paie', [AdminController::class, 'paie'])->name('admin.paie');
     Route::get('/tickets', [AdminController::class, 'tickets'])->name('admin.tickets');
+    Route::get('/tickets/ouverts', [AdminController::class, 'ticketsOuverts'])->name('admin.tickets.open');
+    Route::get('/tickets/attentes', [AdminController::class, 'ticketsPending'])->name('admin.tickets.pending');
+    Route::get('/tickets/fermes', [AdminController::class, 'ticketsFermes'])->name('admin.tickets.closed');
+
+
+    Route::get('/stats', [AdminController::class, 'statsOverview'])->name('admin.stats.overview');
+    Route::get('/stats/tickets', [AdminController::class, 'statsTickets'])->name('admin.stats.tickets');
+    Route::get('/stats/users', [AdminController::class, 'statsUsers'])->name('admin.stats.users');
+
+        Route::get('/paie', [AdminController::class, 'paie'])->name('admin.paie');
+
+
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
+    Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('admin.users.update');
+    Route::delete('/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
+
 });
 
 
