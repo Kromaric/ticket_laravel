@@ -32,7 +32,7 @@
                          @foreach ($tickets as $ticket)
                             <tr>
                                 <td>{{ $ticket->id }}</td>
-                                <td>{{ $ticket->user->name }}</td>
+                                <td style="max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $ticket->user->name }}</td>
                                 <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                     <a href="{{ route('ticket.show', $ticket) }}" style="text-decoration: none;">{{ $ticket->title}}</a>
                                 </td>
