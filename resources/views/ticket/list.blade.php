@@ -6,7 +6,7 @@
         <div class="card-header pt-3">
             <div class="row">
                 <div class="col">
-                    <h5 class="font-weight-bold text-primary float-left">Liste des tickets du système</h5>
+                    <h5 class="font-weight-bold text-primary float-left">{{ $pageTitle }}</h5>
                 </div>
                 <div class="col">
                     <a href="{{ route('ticket.create') }}" class="btn btn-primary float-right">Add New</a>

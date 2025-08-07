@@ -25,8 +25,8 @@
         </a>
     </li>
 
-    <li class="nav-item {{ Request::routeIs('ticket.ticketslist') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('ticket.ticketslist') }}">
+    <li class="nav-item {{ Request::routeIs('user.tickets.list') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('user.tickets.list') }}">
             <i class="fas fa-fw fa-folder-open"></i>
             <span>Liste des tickets</span>
         </a>

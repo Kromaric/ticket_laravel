@@ -22,8 +22,30 @@ class TicketController extends Controller
 
     public function ticketslist()
     {
-        $tickets = Ticket::all()->load('user'); // Load the user relationship to access user details
-        return view('ticket.list', compact('tickets'));
+        $pageTitle = 'Liste des tickets du système';
+        $tickets = Ticket::all()->load('user');
+        return view('ticket.list', compact('tickets', 'pageTitle'));
+    }
+
+    public function ticketsOuverts()
+    {
+        $pageTitle = 'Mes tickets ouverts';
+        $tickets = Ticket::where('user_id', auth()->id())->where('status', 'ouvert')->get();
+        return view('ticket.list', compact('tickets', 'pageTitle'));
+    }
+
+    public function ticketsFermes()
+    {
+        $pageTitle = 'Mes tickets fermés';
+        $tickets = Ticket::where('user_id', auth()->id())->where('status', 'ferme')->get();
+        return view('ticket.list', compact('tickets', 'pageTitle'));
+    }
+
+    public function ticketsPending()
+    {
+        $pageTitle = 'Mes tickets en attente';
+        $tickets = Ticket::where('user_id', auth()->id())->where('status', 'pending')->get();
+        return view('ticket.list', compact('tickets', 'pageTitle'));
     }
 
     public function create()
@@ -47,7 +69,7 @@ class TicketController extends Controller
         $ticket->description = $request->description;
         $ticket->date = $request->date;
         $ticket->duree = $request->duree;
-        $ticket->status = $request->status; 
+        $ticket->status = $request->status;
         $ticket->save();
         return redirect()->route('ticket.index');
     }
