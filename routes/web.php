@@ -27,13 +27,20 @@ Route::middleware('auth')->group(function () {
 
     // Utilisation de la route resource pour les tickets
     Route::resource('/ticket', TicketController::class);
-    Route::get('/tickets-list', [TicketController::class, 'ticketslist'])->name('ticket.ticketslist');
+    Route::get('/tickets-list', [TicketController::class, 'ticketslist'])->name('user.tickets.list');
+    Route::get('/tickets/ouverts', [TicketController::class, 'ticketsOuverts'])->name('user.tickets.open');
+    Route::get('/tickets/attentes', [TicketController::class, 'ticketsPending'])->name('user.tickets.pending');
+    Route::get('/tickets/fermes', [TicketController::class, 'ticketsFermes'])->name('user.tickets.closed');
+
 
 });
 
+
+// Routes pour l'administration
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/tickets', [AdminController::class, 'tickets'])->name('admin.tickets');
+    Route::get('/tickets-list', [AdminController::class, 'ticketslist'])->name('admin.tickets.list');
     Route::get('/tickets/ouverts', [AdminController::class, 'ticketsOuverts'])->name('admin.tickets.open');
     Route::get('/tickets/attentes', [AdminController::class, 'ticketsPending'])->name('admin.tickets.pending');
     Route::get('/tickets/fermes', [AdminController::class, 'ticketsFermes'])->name('admin.tickets.closed');

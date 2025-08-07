@@ -11,6 +11,7 @@ class AdminController extends Controller
     // Tableau de bord : statistiques globales
     public function index()
     {
+
         $tickets = Ticket::with('user')->get();
         $users = User::all();
         $totalTickets = $tickets->count();
@@ -28,10 +29,11 @@ class AdminController extends Controller
     }
 
     // Liste des tickets
-    public function tickets()
+    public function ticketslist()
     {
+        $pageTitle = 'du système';
         $tickets = Ticket::with('user')->get();
-        return view('admin.tickets', compact('tickets'));
+        return view('admin.list', compact('tickets', 'pageTitle'));
     }
 
     // Modifier un ticket
@@ -65,22 +67,25 @@ class AdminController extends Controller
     // Tickets ouverts
 public function ticketsOuverts()
 {
+    $pageTitle = 'ouverts';
     $tickets = Ticket::with('user')->where('status', 'ouvert')->get();
-    return view('admin.tickets-ouverts', compact('tickets'));
+    return view('admin.list', compact('tickets', 'pageTitle'));
 }
 
 // Tickets fermés
 public function ticketsFermes()
 {
+    $pageTitle = 'fermés';
     $tickets = Ticket::with('user')->where('status', 'ferme')->get();
-    return view('admin.tickets-fermes', compact('tickets'));
+    return view('admin.list', compact('tickets', 'pageTitle'));
 }
 
 // Tickets en attente
 public function ticketsPending()
 {
+    $pageTitle = 'en attente';
     $tickets = Ticket::with('user')->where('status', 'pending')->get();
-    return view('admin.tickets-attentes', compact('tickets'));
+    return view('admin.list', compact('tickets', 'pageTitle'));
 }
 // Statistiques générales
 public function statsOverview()
