@@ -42,13 +42,13 @@
                                 {{-- <td>{{ $ticket->salaire() }}</td> --}}
                                 <td>{{ $ticket->status }}</td>
                                 <td>
-                                    <a href="{{ route('ticket.edit', $ticket) }}" class="btn btn-primary">Modifier</a>
+                                    <a href="{{ route('ticket.edit', $ticket) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
                                     <!-- Form for deleting a ticket -->
                                     <form action="{{ route('ticket.destroy', $ticket) }}" method="POST"
                                         style="display:inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                     </form>
                                 </td>
                             </tr>

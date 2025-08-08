@@ -25,9 +25,11 @@ class Ticket extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function salaire()
+    public function getMontantAttribute()
     {
 
         return $this->duree * ($this->user->taux_horaire ?? 0);
     }
+
+    
 }
