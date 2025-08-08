@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -19,12 +20,21 @@ class AdminController extends Controller
         $ticketsOuverts = $tickets->where('status', 'ouvert')->count();
         $ticketsFermes = $tickets->where('status', 'ferme')->count();
         $heuresTotales = $tickets->sum('duree');
-        $salaireTotal = $users->sum(function ($user) {
-            return $user->salaire();
-        });
+        // $salaireTotal = $users->sum(function ($user) {
+        //     return $user->salaire();
+        // });
+
+        $moisActuel = Carbon::now()->month;
+        $ticketsMoisActuel = Ticket::whereMonth('date', $moisActuel)->get();
+        $revenusParStatut = [
+            'En cours' => $ticketsMoisActuel->where('status', 'ouvert')->sum('montant'),
+            'En attente' => $ticketsMoisActuel->where('status', 'pending')->sum('montant'),
+            'Résolus' => $ticketsMoisActuel->where('status', 'ferme')->sum('montant')
+
+        ];
 
         return view('admin.index', compact(
-            'tickets', 'users', 'totalTickets', 'ticketsPending', 'ticketsOuverts', 'ticketsFermes', 'heuresTotales', 'salaireTotal'
+            'tickets', 'users', 'totalTickets', 'ticketsPending', 'ticketsOuverts', 'ticketsFermes', 'heuresTotales', 'revenusParStatut'
         ));
     }
 
