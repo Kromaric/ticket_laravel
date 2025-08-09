@@ -12,7 +12,6 @@ class AdminController extends Controller
     // Tableau de bord : statistiques globales
     public function index()
     {
-
         $tickets = Ticket::with('user')->get();
         $users = User::all();
         $totalTickets = $tickets->count();
@@ -24,6 +23,7 @@ class AdminController extends Controller
         //     return $user->salaire();
         // });
 
+        // Calcul des revenus par statut
         $moisActuel = Carbon::now()->month;
         $ticketsMoisActuel = Ticket::whereMonth('date', $moisActuel)->get();
         $revenusParStatut = [
@@ -33,8 +33,19 @@ class AdminController extends Controller
 
         ];
 
+        // Calcul des revenus mensuels
+        $revenusMensuels = [];
+        for ($mois = 1; $mois <= 12; $mois++) {
+            $ticketsDuMois = Ticket::with('user')
+                ->whereMonth('date', $mois)
+                ->get();
+            $revenusMensuels[] = $ticketsDuMois->sum(function ($ticket) {
+                return $ticket->montant;
+            });
+        }
+
         return view('admin.index', compact(
-            'tickets', 'users', 'totalTickets', 'ticketsPending', 'ticketsOuverts', 'ticketsFermes', 'heuresTotales', 'revenusParStatut'
+            'tickets', 'users', 'totalTickets', 'ticketsPending', 'ticketsOuverts', 'ticketsFermes', 'heuresTotales', 'revenusParStatut', 'revenusMensuels'
         ));
     }
 
