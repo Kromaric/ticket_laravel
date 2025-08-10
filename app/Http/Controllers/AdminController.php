@@ -44,8 +44,24 @@ class AdminController extends Controller
             });
         }
 
+        // Calcul des tickets créés et résolus par mois
+        $ticketsCrees = [];
+        $ticketsResolus = [];
+
+        for ($mois = 1; $mois <= 12; $mois++) {
+            $ticketsCrees[] = Ticket::whereYear('date', now()->year)
+                ->whereMonth('date', $mois)
+                ->count();
+
+            $ticketsResolus[] = Ticket::whereYear('date', now()->year)
+                ->whereMonth('date', $mois)
+                ->where('status', 'ferme')
+                ->count();
+        }
+
         return view('admin.index', compact(
-            'tickets', 'users', 'totalTickets', 'ticketsPending', 'ticketsOuverts', 'ticketsFermes', 'heuresTotales', 'revenusParStatut', 'revenusMensuels'
+            'tickets', 'users', 'totalTickets', 'ticketsPending', 'ticketsOuverts', 'ticketsFermes', 'heuresTotales',
+            'revenusParStatut', 'revenusMensuels', 'ticketsCrees', 'ticketsResolus'
         ));
     }
 
