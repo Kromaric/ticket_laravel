@@ -35,6 +35,7 @@
                 <a class="collapse-item" href="{{ route('admin.tickets.pending') }}">Tickets en attente</a>
                 <a class="collapse-item" href="{{ route('admin.tickets.open') }}">Tickets ouverts</a>
                 <a class="collapse-item" href="{{ route('admin.tickets.closed') }}">Tickets clôturés</a>
+                
             </div>
         </div>
     </li>
@@ -67,9 +68,8 @@
         </a>
         <div id="collapseUsers" class="collapse" aria-labelledby="headingUsers" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{ route('admin.users') }}">Liste des utilisateurs</a>
+                <a class="collapse-item" href="{{ route('admin.users.list') }}">Liste des utilisateurs</a>
                 <a class="collapse-item" href="#">Gestion des rôles</a>
-                <a class="collapse-item" href="#">Permissions</a>
             </div>
         </div>
     </li>

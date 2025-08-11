@@ -102,55 +102,55 @@ class AdminController extends Controller
 
 
     // Tickets ouverts
-public function ticketsOuverts()
-{
-    $pageTitle = 'ouverts';
-    $tickets = Ticket::with('user')->where('status', 'ouvert')->get();
-    return view('admin.list', compact('tickets', 'pageTitle'));
-}
+    public function ticketsOuverts()
+    {
+        $pageTitle = 'ouverts';
+        $tickets = Ticket::with('user')->where('status', 'ouvert')->get();
+        return view('admin.list', compact('tickets', 'pageTitle'));
+    }
 
-// Tickets fermés
-public function ticketsFermes()
-{
-    $pageTitle = 'fermés';
-    $tickets = Ticket::with('user')->where('status', 'ferme')->get();
-    return view('admin.list', compact('tickets', 'pageTitle'));
-}
+    // Tickets fermés
+    public function ticketsFermes()
+    {
+        $pageTitle = 'fermés';
+        $tickets = Ticket::with('user')->where('status', 'ferme')->get();
+        return view('admin.list', compact('tickets', 'pageTitle'));
+    }
 
-// Tickets en attente
-public function ticketsPending()
-{
-    $pageTitle = 'en attente';
-    $tickets = Ticket::with('user')->where('status', 'pending')->get();
-    return view('admin.list', compact('tickets', 'pageTitle'));
-}
-// Statistiques générales
-public function statsOverview()
-{
-    $totalTickets = Ticket::count();
-    $totalUsers = User::count();
-    $heuresTotales = Ticket::sum('duree');
+    // Tickets en attente
+    public function ticketsPending()
+    {
+        $pageTitle = 'en attente';
+        $tickets = Ticket::with('user')->where('status', 'pending')->get();
+        return view('admin.list', compact('tickets', 'pageTitle'));
+    }
+    // Statistiques générales
+    public function statsOverview()
+    {
+        $totalTickets = Ticket::count();
+        $totalUsers = User::count();
+        $heuresTotales = Ticket::sum('duree');
 
-    return view('admin.stats-overview', compact('totalTickets', 'totalUsers', 'heuresTotales'));
-}
+        return view('admin.stats-overview', compact('totalTickets', 'totalUsers', 'heuresTotales'));
+    }
 
-// Statistiques par utilisateur
-public function statsUsers()
-{
-    $users = User::with('tickets')->get();
-    return view('admin.stats-users', compact('users'));
-}
+    // Statistiques par utilisateur
+    public function statsUsers()
+    {
+        $users = User::with('tickets')->get();
+        return view('admin.stats-users', compact('users'));
+    }
 
-// Statistiques par ticket
-public function statsTickets()
-{
-    $tickets = Ticket::with('user')->get();
-    return view('admin.stats-tickets', compact('tickets'));
-}
+    // Statistiques par ticket
+    public function statsTickets()
+    {
+        $tickets = Ticket::with('user')->get();
+        return view('admin.stats-tickets', compact('tickets'));
+    }
 
-#################### GESTION DES UTILISATEURS #########################
+    #################### GESTION DES UTILISATEURS #########################
 
-// Vue paie utilisateurs
+    // Vue paie utilisateurs
     public function paie()
     {
         $users = User::with('tickets')->get();
@@ -161,13 +161,39 @@ public function statsTickets()
     public function users()
     {
         $users = User::withCount('tickets')->get();
-        return view('admin.users', compact('users'));
+        return view('admin.users.list', compact('users'));
+    }
+
+    // Créer un nouvel utilisateur
+    public function createUser()
+    {
+        return view('admin.users.create');
+    }
+
+    // Stocker un nouvel utilisateur
+    public function storeUser(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|string|min:8',
+            'role' => 'required|in:admin,user',
+            'taux_horaire' => 'required|numeric|min:0',
+        ]);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+            'role' => $request->role,
+            'taux_horaire' => $request->taux_horaire,
+        ]);
+        return redirect()->route('admin.users.list')->with('success', 'Utilisateur créé avec succès');
     }
 
     // Modifier un utilisateur
     public function editUser(User $user)
     {
-        return view('admin.edit-user', compact('user'));
+        return view('admin.users.edit', compact('user'));
     }
 
     // Mettre à jour un utilisateur
@@ -180,14 +206,14 @@ public function statsTickets()
             'taux_horaire' => 'required|numeric|min:0',
         ]);
         $user->update($request->only('name', 'email', 'role', 'taux_horaire'));
-        return redirect()->route('admin.users')->with('success', 'Utilisateur mis à jour');
+        return redirect()->route('admin.users.list')->with('success', 'Utilisateur mis à jour');
     }
 
     // Supprimer un utilisateur
     public function destroyUser(User $user)
     {
         $user->delete();
-        return redirect()->route('admin.users')->with('success', 'Utilisateur supprimé');
+        return redirect()->route('admin.users.list')->with('success', 'Utilisateur supprimé');
     }
 
 }

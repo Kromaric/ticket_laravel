@@ -63,7 +63,7 @@ class User extends Authenticatable
     public function salaire()
     {
         return $this->tickets->sum(function ($ticket) {
-            return $ticket->salaire();
+            return $ticket->montant;
         });
     }
 }

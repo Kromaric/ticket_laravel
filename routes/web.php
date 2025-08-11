@@ -50,10 +50,12 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/stats/tickets', [AdminController::class, 'statsTickets'])->name('admin.stats.tickets');
     Route::get('/stats/users', [AdminController::class, 'statsUsers'])->name('admin.stats.users');
 
-        Route::get('/paie', [AdminController::class, 'paie'])->name('admin.paie');
+    Route::get('/paie', [AdminController::class, 'paie'])->name('admin.paie');
 
 
-    Route::get('/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::get('/users', [AdminController::class, 'users'])->name('admin.users.list');
+    Route::get('/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');
+    Route::post('/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
     Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
     Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('admin.users.update');
     Route::delete('/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
