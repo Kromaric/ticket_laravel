@@ -35,7 +35,7 @@
                 <a class="collapse-item" href="{{ route('admin.tickets.pending') }}">Tickets en attente</a>
                 <a class="collapse-item" href="{{ route('admin.tickets.open') }}">Tickets ouverts</a>
                 <a class="collapse-item" href="{{ route('admin.tickets.closed') }}">Tickets clôturés</a>
-                
+
             </div>
         </div>
     </li>
@@ -60,7 +60,7 @@
     </li>
 
     <!-- Utilisateurs Section -->
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsers"
             aria-expanded="false" aria-controls="collapseUsers">
             <i class="fas fa-fw fa-users-cog"></i>
@@ -72,7 +72,12 @@
                 <a class="collapse-item" href="#">Gestion des rôles</a>
             </div>
         </div>
-    </li>
+    </li> --}}
+    <li class="nav-item {{ Request::routeIs('admin.users.list') ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('admin.users.list') }}">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Utilisateurs</span>
+        </a>
 
     <hr class="sidebar-divider d-none d-md-block">
 </ul>

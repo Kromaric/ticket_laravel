@@ -201,11 +201,10 @@ class AdminController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email',
             'role' => 'required|in:admin,user',
             'taux_horaire' => 'required|numeric|min:0',
         ]);
-        $user->update($request->only('name', 'email', 'role', 'taux_horaire'));
+        $user->update($request->only('name', 'role', 'taux_horaire'));
         return redirect()->route('admin.users.list')->with('success', 'Utilisateur mis à jour');
     }
 
@@ -215,5 +214,24 @@ class AdminController extends Controller
         $user->delete();
         return redirect()->route('admin.users.list')->with('success', 'Utilisateur supprimé');
     }
+
+    // // Vue pour ajouter un rôle à un utilisateur
+    // public function showAddRoleForm(User $user)
+    // {
+    //     return view('admin.users.add-role', compact('user'));
+    // }
+
+    // // Ajouter un rôle à un utilisateur
+    // public function addRoleToUser(Request $request, User $user)
+    // {
+    //     $request->validate([
+    //         'role' => 'required|in:admin,user',
+    //     ]);
+    //     $user->role = $request->role;
+    //     $user->save();
+    //     return redirect()->route('admin.users.list')->with('success', 'Rôle ajouté à l\'utilisateur');
+    // }
+
+
 
 }
