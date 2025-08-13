@@ -125,28 +125,28 @@ class AdminController extends Controller
         return view('admin.list', compact('tickets', 'pageTitle'));
     }
     // Statistiques générales
-    public function statsOverview()
-    {
-        $totalTickets = Ticket::count();
-        $totalUsers = User::count();
-        $heuresTotales = Ticket::sum('duree');
+    // public function statsOverview()
+    // {
+    //     $totalTickets = Ticket::count();
+    //     $totalUsers = User::count();
+    //     $heuresTotales = Ticket::sum('duree');
 
-        return view('admin.stats-overview', compact('totalTickets', 'totalUsers', 'heuresTotales'));
-    }
+    //     return view('admin.stats-overview', compact('totalTickets', 'totalUsers', 'heuresTotales'));
+    // }
 
     // Statistiques par utilisateur
-    public function statsUsers()
-    {
-        $users = User::with('tickets')->get();
-        return view('admin.stats-users', compact('users'));
-    }
+    // public function statsUsers()
+    // {
+    //     $users = User::with('tickets')->get();
+    //     return view('admin.stats-users', compact('users'));
+    // }
 
     // Statistiques par ticket
-    public function statsTickets()
-    {
-        $tickets = Ticket::with('user')->get();
-        return view('admin.stats-tickets', compact('tickets'));
-    }
+    // public function statsTickets()
+    // {
+    //     $tickets = Ticket::with('user')->get();
+    //     return view('admin.stats-tickets', compact('tickets'));
+    // }
 
     #################### GESTION DES UTILISATEURS #########################
 
@@ -155,6 +155,14 @@ class AdminController extends Controller
     {
         $users = User::with('tickets')->get();
         return view('admin.paie', compact('users'));
+    }
+
+    // Tickets d'un utilisateur
+    public function userTickets(User $user)
+    {
+        $pageTitle = 'de ' . $user->name;
+        $tickets = $user->tickets;
+        return view('admin.list', compact('user', 'tickets' , 'pageTitle'));
     }
 
     // Liste des utilisateurs

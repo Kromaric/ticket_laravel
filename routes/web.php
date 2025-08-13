@@ -46,14 +46,15 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/tickets/fermes', [AdminController::class, 'ticketsFermes'])->name('admin.tickets.closed');
 
 
-    Route::get('/stats', [AdminController::class, 'statsOverview'])->name('admin.stats.overview');
-    Route::get('/stats/tickets', [AdminController::class, 'statsTickets'])->name('admin.stats.tickets');
-    Route::get('/stats/users', [AdminController::class, 'statsUsers'])->name('admin.stats.users');
+    // Route::get('/stats', [AdminController::class, 'statsOverview'])->name('admin.stats.overview');
+    // Route::get('/stats/tickets', [AdminController::class, 'statsTickets'])->name('admin.stats.tickets');
+    // Route::get('/stats/users', [AdminController::class, 'statsUsers'])->name('admin.stats.users');
 
     Route::get('/paie', [AdminController::class, 'paie'])->name('admin.paie');
 
 
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users.list');
+    Route::get('/users/{user}/tickets', [AdminController::class, 'userTickets'])->name('admin.users.tickets');
     Route::get('/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');
     Route::post('/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
     Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');

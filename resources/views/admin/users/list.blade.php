@@ -35,7 +35,7 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->role }}</td>
                                     <td>{{ $user->taux_horaire }}</td>
-                                    <td>{{ $user->tickets_count }}</td>
+                                    <td><a href="{{ route('admin.users.tickets', $user->id) }}" style="text-decoration: none;">{{ $user->tickets_count }}</a></td>
                                     <td>{{ number_format($user->salaire(), 2, ',', ' ') }}</td>
                                     <td>
                                         <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-primary"><i

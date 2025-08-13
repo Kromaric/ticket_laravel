@@ -50,13 +50,13 @@
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Statistiques</span>
         </a>
-        <div id="collapseStats" class="collapse" aria-labelledby="headingStats" data-parent="#accordionSidebar">
+        {{-- <div id="collapseStats" class="collapse" aria-labelledby="headingStats" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <a class="collapse-item" href="{{ route('admin.stats.overview') }}">Vue d'ensemble</a>
                 <a class="collapse-item" href="{{ route('admin.stats.tickets') }}">Stats des tickets</a>
                 <a class="collapse-item" href="{{ route('admin.stats.users') }}">Stats des utilisateurs</a>
             </div>
-        </div>
+        </div> --}}
     </li>
 
     <!-- Utilisateurs Section -->
@@ -80,4 +80,10 @@
         </a>
 
     <hr class="sidebar-divider d-none d-md-block">
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('profile.edit') }}">
+            <i class="fas fa-fw fa-user-circle"></i>
+            <span>Mon profil</span>
+        </a>
+    </li>
 </ul>
