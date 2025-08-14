@@ -3,14 +3,14 @@
 
 @section('content')
     <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
-                    class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
-        </div>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
+                class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+    </div>
 
     <!-- Content Row -->
-        @include('partials.stats')
+    @include('partials.stats')
 
 
     <!--Ticket DataTales -->
@@ -21,7 +21,8 @@
                     <h5 class="font-weight-bold text-primary float-left">Mes tickets</h5>
                 </div>
                 <div class="col">
-                    <a href="{{ route('ticket.create') }}" class="btn btn-primary float-right">Add New</a>
+                    <a href="{{ route('ticket.create') }}" class="btn btn-sm btn-primary float-right"><i
+                            class="fas fa-plus mr-1"></i>Add New</a>
                 </div>
             </div>
         </div>
@@ -41,25 +42,31 @@
                         </tr>
                     </thead>
                     <tbody>
-                         @foreach ($tickets as $ticket)
+                        @foreach ($tickets as $ticket)
                             <tr>
                                 <td>{{ $ticket->id }}</td>
-                                <td style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                    <a href="{{ route('ticket.show', $ticket) }}" style="text-decoration: none;">{{ $ticket->title}}</a>
+                                <td
+                                    style="max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                    <a href="{{ route('ticket.show', $ticket) }}"
+                                        style="text-decoration: none;">{{ $ticket->title }}</a>
                                 </td>
-                                <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ $ticket->description }}</td>
+                                <td
+                                    style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                    {{ $ticket->description }}</td>
                                 <td>{{ $ticket->date->format('d M Y') }}</td>
                                 <td>{{ $ticket->duree }}</td>
                                 <td>{{ $ticket->montant }}</td>
                                 <td>{{ $ticket->status }}</td>
                                 <td>
-                                    <a href="{{ route('ticket.edit', $ticket) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                    <a href="{{ route('ticket.edit', $ticket) }}" class="btn btn-outline-primary"><i
+                                            class="fas fa-edit"></i></a>
                                     <!-- Form for deleting a ticket -->
                                     <form action="{{ route('ticket.destroy', $ticket) }}" method="POST"
                                         style="display:inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                        <button type="submit" class="btn btn-outline-danger"><i
+                                                class="fas fa-trash"></i></button>
                                     </form>
                                 </td>
                             </tr>
@@ -69,5 +76,4 @@
             </div>
         </div>
     </div>
-
 @endsection

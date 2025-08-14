@@ -9,7 +9,7 @@
                     <h5 class="font-weight-bold text-primary float-left">Liste des tickets  {{ $pageTitle }}</h5>
                 </div>
                 <div class="col">
-                    <a href="{{ route('ticket.create') }}" class="btn btn-primary float-right">Add New</a>
+                    <a href="{{ route('ticket.create') }}" class="btn btn-sm btn-primary float-right"><i class="fas fa-plus mr-1"></i>Add New</a>
                 </div>
         </div>
         <div class="card-body">
@@ -48,13 +48,13 @@
                                 <td>{{ $ticket->montant }}</td>
                                 <td>{{ $ticket->status }}</td>
                                 <td>
-                                    <a href="{{ route('ticket.edit', $ticket) }}" class="btn btn-primary"><i class="fas fa-edit"></i></a>
+                                    <a href="{{ route('ticket.edit', $ticket) }}" class="btn btn-outline-primary"><i class="fas fa-edit"></i></a>
                                     <!-- Form for deleting a ticket -->
                                     <form action="{{ route('ticket.destroy', $ticket) }}" method="POST"
                                         style="display:inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                        <button type="submit" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
                                     </form>
                                 </td>
                             </tr>
