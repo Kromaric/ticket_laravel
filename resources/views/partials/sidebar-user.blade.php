@@ -5,7 +5,7 @@
         <div class="sidebar-brand-icon">
             <i class="fas fa-ticket-alt"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">Mes Tickets</div>
+        <div class="sidebar-brand-text mx-3">Ticket App</div>
     </a>
 
     <!-- Divider -->

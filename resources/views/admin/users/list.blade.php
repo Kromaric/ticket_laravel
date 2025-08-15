@@ -38,13 +38,13 @@
                                     <td><a href="{{ route('admin.users.tickets', $user->id) }}" style="text-decoration: none;">{{ $user->tickets_count }}</a></td>
                                     <td>{{ number_format($user->salaire(), 2, ',', ' ') }}</td>
                                     <td>
-                                        <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-primary"><i
+                                        <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-outline-primary"><i
                                                 class="fas fa-edit"></i></a>
                                         <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST"
                                             style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                            <button type="submit" class="btn btn-outline-danger"><i class="fas fa-trash"></i></button>
                                         </form>
                                     </td>
                                 </tr>
