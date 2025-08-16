@@ -41,10 +41,15 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/tickets', [AdminController::class, 'tickets'])->name('admin.tickets');
     Route::get('/tickets-list', [AdminController::class, 'ticketslist'])->name('admin.tickets.list');
+    Route::get('/users/{user}/tickets', [AdminController::class, 'userTickets'])->name('admin.users.tickets');
     Route::get('/tickets/ouverts', [AdminController::class, 'ticketsOuverts'])->name('admin.tickets.open');
     Route::get('/tickets/attentes', [AdminController::class, 'ticketsPending'])->name('admin.tickets.pending');
     Route::get('/tickets/fermes', [AdminController::class, 'ticketsFermes'])->name('admin.tickets.closed');
-
+    Route::get('/tickets/create', [AdminController::class, 'createTicket'])->name('admin.tickets.create');
+    Route::post('/tickets', [AdminController::class, 'storeTicket'])->name('admin.tickets.store');
+    Route::get('/tickets/{ticket}/edit', [AdminController::class, 'editTicket'])->name('admin.tickets.edit');
+    Route::put('/tickets/{ticket}', [AdminController::class, 'updateTicket'])->name('admin.tickets.update');
+    Route::delete('/tickets/{ticket}', [AdminController::class, 'destroyTicket'])->name('admin.tickets.destroy');
 
     // Route::get('/stats', [AdminController::class, 'statsOverview'])->name('admin.stats.overview');
     // Route::get('/stats/tickets', [AdminController::class, 'statsTickets'])->name('admin.stats.tickets');
@@ -54,7 +59,6 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
 
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users.list');
-    Route::get('/users/{user}/tickets', [AdminController::class, 'userTickets'])->name('admin.users.tickets');
     Route::get('/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');
     Route::post('/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
     Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');

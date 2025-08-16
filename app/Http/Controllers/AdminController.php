@@ -73,10 +73,32 @@ class AdminController extends Controller
         return view('admin.list', compact('tickets', 'pageTitle'));
     }
 
+    // Créer un ticket
+    public function createTicket()
+    {
+        return view('admin.create');
+    }
+
+    // Stocker un ticket
+    public function storeTicket(Request $request)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'date' => 'required|date',
+            'duree' => 'required|integer|min:0',
+            'status' => 'required|in:pending,ouvert,ferme',
+            'user_id' => 'required|exists:users,id'
+        ]);
+
+        Ticket::create($request->only('title', 'description', 'date', 'duree', 'status', 'user_id'));
+        return redirect()->route('admin.tickets')->with('success', 'Ticket créé');
+    }
+
     // Modifier un ticket
     public function editTicket(Ticket $ticket)
     {
-        return view('admin.edit-ticket', compact('ticket'));
+        return view('admin.edit', compact('ticket'));
     }
 
     // Mettre à jour un ticket
