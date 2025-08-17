@@ -148,6 +148,15 @@ class AdminController extends Controller
         $tickets = Ticket::with('user')->where('status', 'pending')->get();
         return view('admin.list', compact('tickets', 'pageTitle'));
     }
+
+    // Mes tickets
+    public function myTickets()
+    {
+        $pageTitle = 'de '. auth()->user()->name;
+        $tickets = auth()->user()->tickets;
+        return view('admin.list', compact('tickets', 'pageTitle'));
+    }
+
     // Statistiques générales
     // public function statsOverview()
     // {

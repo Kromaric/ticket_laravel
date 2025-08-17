@@ -31,6 +31,8 @@
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ route('admin.tickets.create') }}">Créer un ticket</a>
+                <a class="collapse-item" href="{{ route('admin.tickets.my') }}">Mes tickets</a>
                 <a class="collapse-item" href="{{ route('admin.tickets.list') }}">Tous les tickets</a>
                 <a class="collapse-item" href="{{ route('admin.tickets.pending') }}">Tickets en attente</a>
                 <a class="collapse-item" href="{{ route('admin.tickets.open') }}">Tickets ouverts</a>

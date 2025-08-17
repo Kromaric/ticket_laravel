@@ -40,6 +40,7 @@ Route::middleware('auth')->group(function () {
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
     Route::get('/tickets-list', [AdminController::class, 'ticketslist'])->name('admin.tickets.list');
+    Route::get('/mes-tickets', [AdminController::class, 'myTickets'])->name('admin.tickets.my');
     Route::get('/users/{user}/tickets', [AdminController::class, 'userTickets'])->name('admin.users.tickets');
     Route::get('/tickets/ouverts', [AdminController::class, 'ticketsOuverts'])->name('admin.tickets.open');
     Route::get('/tickets/attentes', [AdminController::class, 'ticketsPending'])->name('admin.tickets.pending');
