@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layouts.app')
 @section('content')
     <h1>Modifier ticket</h1>
 
@@ -38,8 +38,9 @@
         <div class="form-group">
             <label for="user_id">Utilisateur</label>
             <select name="user_id" id="user_id" class="form-control" required>
-                @foreach($users as $user)
-                    <option value="{{ $user->id }}" {{ $ticket->user_id === $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
+                @foreach ($users as $user)
+                    <option value="{{ $user->id }}" {{ $ticket->user_id === $user->id ? 'selected' : '' }}>
+                        {{ $user->name }}</option>
                 @endforeach
             </select>
         </div>

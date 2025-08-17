@@ -76,7 +76,8 @@ class AdminController extends Controller
     // Créer un ticket
     public function createTicket()
     {
-        return view('admin.create');
+        $users = User::all();
+        return view('admin.create', compact('users'));
     }
 
     // Stocker un ticket
@@ -98,7 +99,8 @@ class AdminController extends Controller
     // Modifier un ticket
     public function editTicket(Ticket $ticket)
     {
-        return view('admin.edit', compact('ticket'));
+        $users = User::all();
+        return view('admin.edit', compact('ticket', 'users'));
     }
 
     // Mettre à jour un ticket
