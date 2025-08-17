@@ -25,12 +25,7 @@
             <label for="duree">Durée</label>
             <input type="text" name="duree" id="duree" class="form-control" required>
         </div>
-
-        <div class="form-group">
-            <label for="montant">Montant</label>
-            <input type="text" name="montant" id="montant" class="form-control" required>
-        </div>
-
+        
         <div class="form-group">
             <label for="status">Statut</label>
             <select name="status" id="status" class="form-control" required>

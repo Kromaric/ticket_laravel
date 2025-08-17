@@ -93,7 +93,7 @@ class AdminController extends Controller
         ]);
 
         Ticket::create($request->only('title', 'description', 'date', 'duree', 'status', 'user_id'));
-        return redirect()->route('admin.tickets')->with('success', 'Ticket créé');
+        return redirect()->route('admin.tickets.list')->with('success', 'Ticket créé');
     }
 
     // Modifier un ticket
@@ -114,14 +114,14 @@ class AdminController extends Controller
             'status' => 'required|string',
         ]);
         $ticket->update($request->only('title', 'description', 'date', 'duree', 'status'));
-        return redirect()->route('admin.tickets')->with('success', 'Ticket mis à jour');
+        return redirect()->route('admin.tickets.list')->with('success', 'Ticket mis à jour');
     }
 
     // Supprimer un ticket
     public function destroyTicket(Ticket $ticket)
     {
         $ticket->delete();
-        return redirect()->route('admin.tickets')->with('success', 'Ticket supprimé');
+        return redirect()->route('admin.tickets.list')->with('success', 'Ticket supprimé');
     }
 
 

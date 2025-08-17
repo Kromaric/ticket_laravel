@@ -39,7 +39,6 @@ Route::middleware('auth')->group(function () {
 // Routes pour l'administration
 Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
-    Route::get('/tickets', [AdminController::class, 'tickets'])->name('admin.tickets');
     Route::get('/tickets-list', [AdminController::class, 'ticketslist'])->name('admin.tickets.list');
     Route::get('/users/{user}/tickets', [AdminController::class, 'userTickets'])->name('admin.users.tickets');
     Route::get('/tickets/ouverts', [AdminController::class, 'ticketsOuverts'])->name('admin.tickets.open');
