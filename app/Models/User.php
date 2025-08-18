@@ -24,6 +24,7 @@ class User extends Authenticatable
         'password',
         'role',
         'taux_horaire',
+        'avatar_url'
     ];
 
     /**
