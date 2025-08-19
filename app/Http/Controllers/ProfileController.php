@@ -16,9 +16,25 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+       $user = $request->user();
+
+        $tickets = $user->tickets;
+        $resolved = $tickets->where('status', 'ferme');
+        $encours = $tickets->where('status', 'ouvert');
+        $pending = $tickets->where('status', 'pending');
+        $avgDuration = $resolved->avg('duree');
+
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user' => $user,
+            'stats' => [
+                'total' => $tickets->count(),
+                'resolved' => $resolved->count(),
+                'encours' => $encours->count(),
+                'pending' => $pending->count(),
+                'avgDuration' => $avgDuration,
+            ]
         ]);
+
     }
 
     /**
@@ -26,14 +42,19 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $user->fill($request->validated());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        if ($request->hasFile('avatar')) {
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $user->avatar_url = '/storage/' . $path;
         }
 
-        $request->user()->save();
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
+        }
 
+        $user->save();
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
