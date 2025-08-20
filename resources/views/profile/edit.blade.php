@@ -4,12 +4,12 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="h3 text-dark">Mon profil</h1>
-            <a href="{{ route('dashboard') }}" class="btn btn-outline-secondary btn-sm">
+            <a href="{{ route('dashboard') }}" class="btn btn-outline-primary btn-sm">
                 <i class="fas fa-arrow-left"></i> Retour
             </a>
         </div>
 
-        {{-- Profil résumé --}}
+        {{-- Profil --}}
         <div class="card mb-4">
             <div class="card-body d-flex justify-content-between align-items-center">
                 <div class="d-flex align-items-center">
@@ -27,9 +27,8 @@
                     </div>
                 </div>
 
-                {{-- Statistiques --}}
                 <div class="text-right">
-                    <p><strong>Tickets créés :</strong> {{ $stats['total'] }}</p>
+                    <p><strong>Tickets total :</strong> {{ $stats['total'] }}</p>
                     <p><strong>Tickets résolus :</strong> {{ $stats['resolved'] }}</p>
                     <p><strong>Tickets en cours :</strong> {{ $stats['encours'] }}</p>
                     <p><strong>Tickets en attente :</strong> {{ $stats['pending'] }}</p>
@@ -38,7 +37,6 @@
             </div>
         </div>
 
-        {{-- Formulaire d’édition du profil --}}
         <div class="card mb-4">
             <div class="card-header bg-white">
                 <h5 class="mb-0">Modifier mes informations</h5>
@@ -48,7 +46,6 @@
             </div>
         </div>
 
-        {{-- Changement de mot de passe --}}
         <div class="card mb-4">
             <div class="card-header bg-white">
                 <h5 class="mb-0">Changer mon mot de passe</h5>
@@ -58,7 +55,6 @@
             </div>
         </div>
 
-        {{-- Suppression du compte --}}
         <div class="card mb-4">
             <div class="card-header bg-white">
                 <h5 class="mb-0 text-danger">Supprimer mon compte</h5>
