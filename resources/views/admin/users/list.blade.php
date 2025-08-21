@@ -18,6 +18,7 @@
                         <thead>
                             <tr>
                                 <th>N°</th>
+                                <th>Avatar</th>
                                 <th>Nom</th>
                                 <th>Email</th>
                                 <th>Role</th>
@@ -31,6 +32,8 @@
                             @foreach ($users as $user)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
+                                    <td><img src="{{ $user->avatar_url ?? asset('img/undraw_profile.svg') }}"
+                                            class="rounded-circle border me-3" alt="Avatar" width="50" height="50"></td>
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->role }}</td>

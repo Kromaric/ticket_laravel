@@ -11,13 +11,13 @@
         </form>
 
         {{-- Formulaire principal --}}
-        <form method="POST" action="{{ route('profile.update') }}">
+        <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
             @csrf
             @method('PATCH')
             <div class="mb-3">
                 <label for="name" class="form-label">Nom</label>
                 <input type="text" name="name" id="name" class="form-control"
-                       value="{{ old('name', $user->name) }}" required autofocus autocomplete="name">
+                    value="{{ old('name', $user->name) }}" required autofocus autocomplete="name">
                 @error('name')
                     <div class="text-danger mt-1">{{ $message }}</div>
                 @enderror
@@ -25,12 +25,12 @@
             <div class="mb-3">
                 <label for="email" class="form-label">Adresse email</label>
                 <input type="email" name="email" id="email" class="form-control"
-                       value="{{ old('email', $user->email) }}" required autocomplete="username">
+                    value="{{ old('email', $user->email) }}" required autocomplete="username">
                 @error('email')
                     <div class="text-danger mt-1">{{ $message }}</div>
                 @enderror
 
-                @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
+                @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
                     <div class="mt-2">
                         <p class="text-muted small">
                             Votre adresse email n’est pas vérifiée.
@@ -47,7 +47,22 @@
                     </div>
                 @endif
             </div>
+            <div class="mb-4">
+                <label for="avatar" class="form-label fw-bold">Photo de profil</label>
+                <input type="file" name="avatar" id="avatar" class="form-control" accept="image/*">
 
+                @error('avatar')
+                    <div class="text-danger mt-1">{{ $message }}</div>
+                @enderror
+
+                @if ($user->avatar_url)
+                    <div class="mt-3 d-flex align-items-center">
+                        <img src="{{ $user->avatar_url }}" alt="Avatar actuel" class="img-thumbnail me-3"
+                            style="max-width: 120px;">
+                        <span class="text-muted small">Avatar actuel</span>
+                    </div>
+                @endif
+            </div>
             <div class="d-flex align-items-center">
                 <button type="submit" class="btn btn-primary me-3">Enregistrer</button>
 

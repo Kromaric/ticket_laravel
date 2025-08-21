@@ -45,7 +45,12 @@ class ProfileController extends Controller
         $user = $request->user();
         $user->fill($request->validated());
 
+        // Gestion de l'avatar
         if ($request->hasFile('avatar')) {
+            if ($user->avatar_url && file_exists(public_path($user->avatar_url))) {
+                unlink(public_path($user->avatar_url));
+            }
+
             $path = $request->file('avatar')->store('avatars', 'public');
             $user->avatar_url = '/storage/' . $path;
         }
