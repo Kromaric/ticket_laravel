@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Policies\TicketPolicy;
+use App\Notifications\TicketCreatedNotification;
+
 
 class TicketController extends Controller
 {
@@ -71,6 +73,7 @@ class TicketController extends Controller
         $ticket->duree = $request->duree;
         $ticket->status = $request->status;
         $ticket->save();
+        auth()->user()->notify(new TicketCreatedNotification($ticket));
         return redirect()->route('ticket.index');
     }
 
