@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class TicketCreatedNotification extends Notification
+class TicketResolvedNotification extends Notification
 {
     use Queueable;
 
@@ -35,8 +35,9 @@ class TicketCreatedNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Nouveau ticket créé')
-            ->line("Votre ticket #{$this->ticket->id} a été créé avec succès.")
+            ->subject('Votre ticket a été résolu')
+            ->line("Bonjour {$notifiable->name},")
+            ->line("Votre ticket #{$this->ticket->id} a été résolu avec succès.")
             ->action('Voir le ticket', url("/tickets/{$this->ticket->id}"));
     }
 
@@ -48,10 +49,9 @@ class TicketCreatedNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'type' => 'created',
-            'message' => "Ticket #{$this->ticket->id} créé.",
+            'type' => 'resolved',
+            'message' => "Ticket #{$this->ticket->id} résolu.",
             'ticket_id' => $this->ticket->id,
         ];
-
     }
 }
