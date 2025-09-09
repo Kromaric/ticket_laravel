@@ -6,6 +6,7 @@ use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Policies\TicketPolicy;
 use App\Notifications\TicketCreatedNotification;
+use App\Models\User;
 
 
 class TicketController extends Controller
@@ -64,7 +65,7 @@ class TicketController extends Controller
             'duree' => 'required|integer',
             'status' => 'required|in:pending,ouvert,ferme',
         ]);
-
+        $admins = User::where('role', 'admin')->get();
         $ticket = new Ticket();
         $ticket->user_id = auth()->user()->id;
         $ticket->title = $request->title;
@@ -74,6 +75,7 @@ class TicketController extends Controller
         $ticket->status = $request->status;
         $ticket->save();
         auth()->user()->notify(new TicketCreatedNotification($ticket));
+        Notification::send($admins, new TicketCreatedNotification($ticket));
         return redirect()->route('ticket.index');
     }
 
@@ -100,6 +102,20 @@ class TicketController extends Controller
         $ticket->save();
         return redirect()->route('ticket.index');
 
+    }
+
+    public function close(Ticket $ticket)
+    {
+        $this->authorize('update', $ticket);
+        if ($ticket->status !== 'ferme') {
+            $ticket->status = 'ferme';
+            $ticket->save();
+            auth()->user()->notify(new TicketClosedNotification($ticket));
+            $admins = User::where('role', 'admin')->get();
+            Notification::send($admins, new TicketResolvedNotification($ticket));
+        }
+
+        return redirect()->route('ticket.index')->with('success', 'Ticket fermé avec succès.');
     }
 
     public function show(Ticket $ticket)

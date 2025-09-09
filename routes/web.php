@@ -29,6 +29,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/tickets/ouverts', [TicketController::class, 'ticketsOuverts'])->name('user.tickets.open');
     Route::get('/tickets/attentes', [TicketController::class, 'ticketsPending'])->name('user.tickets.pending');
     Route::get('/tickets/fermes', [TicketController::class, 'ticketsFermes'])->name('user.tickets.closed');
+    Route::patch('/ticket/{ticket}/close', [TicketController::class, 'close'])->name('ticket.close');
 
 
 });

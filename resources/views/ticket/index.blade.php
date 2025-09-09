@@ -59,7 +59,18 @@
                                 <td>{{ $ticket->status }}</td>
                                 <td>
                                     <a href="{{ route('ticket.edit', $ticket) }}" class="btn btn-outline-primary"><i
-                                            class="fas fa-edit"></i></a>
+                                            class="fas fa-edit"></i>
+                                    </a>
+                                    {{-- Form for closing a ticket --}}
+                                    @if ($ticket->status == 'ouvert')
+                                        <form action="{{ route('ticket.close', $ticket) }}" method="POST"
+                                            style="display:inline;">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn btn-outline-success"><i
+                                                    class="fas fa-check"></i></button>
+                                        </form>
+                                    @endif
                                     <!-- Form for deleting a ticket -->
                                     <form action="{{ route('ticket.destroy', $ticket) }}" method="POST"
                                         style="display:inline;">
