@@ -110,12 +110,23 @@ class TicketController extends Controller
         if ($ticket->status !== 'ferme') {
             $ticket->status = 'ferme';
             $ticket->save();
-            auth()->user()->notify(new TicketClosedNotification($ticket));
+            $ticket->user->notify(new TicketClosedNotification($ticket));
             $admins = User::where('role', 'admin')->get();
             Notification::send($admins, new TicketResolvedNotification($ticket));
         }
 
         return redirect()->route('ticket.index')->with('success', 'Ticket fermé avec succès.');
+    }
+
+    public function open(Ticket $ticket)
+    {
+        $this->authorize('update', $ticket);
+        if ($ticket->status !== 'ouvert') {
+            $ticket->status = 'ouvert';
+            $ticket->save();
+        }
+        $ticket->user->notify(new TicketOpenedNotification($ticket));
+        return redirect()->route('ticket.index')->with('success', 'Ticket ouvert avec succès.');
     }
 
     public function show(Ticket $ticket)

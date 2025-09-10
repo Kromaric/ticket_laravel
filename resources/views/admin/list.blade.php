@@ -64,6 +64,16 @@
                                                         class="fas fa-check"></i></button>
                                             </form>
                                         @endif
+                                        {{-- Form for opening a ticket --}}
+                                        @if ($ticket->status !== 'ouvert')
+                                            <form action="{{ route('ticket.open', $ticket) }}" method="POST"
+                                                style="display:inline;">
+                                                @csrf
+                                                @method('PATCH')
+                                                <button type="submit" class="btn btn-outline-warning"><i
+                                                        class="fas fa-redo"></i></button>
+                                            </form>
+                                        @endif
                                         <!-- Form for deleting a ticket -->
                                         <form action="{{ route('admin.tickets.destroy', $ticket) }}" method="POST"
                                             style="display:inline;">
