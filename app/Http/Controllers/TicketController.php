@@ -100,6 +100,9 @@ class TicketController extends Controller
         $ticket->duree = $request->duree;
         $ticket->status = $request->status;
         $ticket->save();
+        $ticket->user->notify(new TicketUpdatedNotification($ticket));
+        $admins = User::where('role', 'admin')->get();
+        Notification::send($admins, new TicketUpdatedNotification($ticket));
         return redirect()->route('ticket.index');
 
     }
