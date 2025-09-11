@@ -89,10 +89,13 @@ class AdminController extends Controller
             'date' => 'required|date',
             'duree' => 'required|integer|min:0',
             'status' => 'required|in:pending,ouvert,ferme',
-            'user_id' => 'required|exists:users,id'
         ]);
+        $request->merge(['user_id' => auth()->id()]);
 
-        Ticket::create($request->only('title', 'description', 'date', 'duree', 'status', 'user_id'));
+        $ticket = Ticket::create($request->only('title', 'description', 'date', 'duree', 'status', 'user_id'));
+        $admins = User::where('role', 'admin')->get();
+        $ticket->user->notify(new TicketCreatedNotification($ticket));
+        Notification::send($admins, new TicketCreatedNotification($ticket));
         return redirect()->route('admin.tickets.list')->with('success', 'Ticket créé');
     }
 
@@ -112,8 +115,12 @@ class AdminController extends Controller
             'date' => 'required|date',
             'duree' => 'required|integer|min:0',
             'status' => 'required|string',
+            'user_id' => 'required|exists:users,id',
         ]);
-        $ticket->update($request->only('title', 'description', 'date', 'duree', 'status'));
+        $ticket->update($request->only('title', 'description', 'date', 'duree', 'status', 'user_id'));
+        $ticket->user->notify(new TicketUpdatedNotification($ticket));
+        $admins = User::where('role', 'admin')->get();
+        Notification::send($admins, new TicketUpdatedNotification($ticket));
         return redirect()->route('admin.tickets.list')->with('success', 'Ticket mis à jour');
     }
 
@@ -228,6 +235,7 @@ class AdminController extends Controller
             'role' => $request->role,
             'taux_horaire' => $request->taux_horaire,
         ]);
+        $user->notify(new WelcomeUserNotification());
         return redirect()->route('admin.users.list')->with('success', 'Utilisateur créé avec succès');
     }
 
