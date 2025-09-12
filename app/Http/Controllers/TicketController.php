@@ -6,6 +6,10 @@ use App\Models\Ticket;
 use Illuminate\Http\Request;
 use App\Policies\TicketPolicy;
 use App\Notifications\TicketCreatedNotification;
+use App\Notifications\TicketUpdatedNotification;
+use App\Notifications\TicketOpenedNotification;
+use App\Notifications\TicketResolvedNotification;
+use Illuminate\Support\Facades\Notification;
 use App\Models\User;
 
 
@@ -113,7 +117,7 @@ class TicketController extends Controller
         if ($ticket->status !== 'ferme') {
             $ticket->status = 'ferme';
             $ticket->save();
-            $ticket->user->notify(new TicketClosedNotification($ticket));
+            $ticket->user->notify(new TicketResolvedNotification($ticket));
             $admins = User::where('role', 'admin')->get();
             Notification::send($admins, new TicketResolvedNotification($ticket));
         }

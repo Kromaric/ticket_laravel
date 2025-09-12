@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Ticket;
 use Illuminate\Http\Request;
+use App\Notifications\WelcomeUserNotification;
+use App\Notifications\TicketCreatedNotification;
+use App\Notifications\TicketUpdatedNotification;
+use Illuminate\Support\Facades\Notification;
 use Carbon\Carbon;
 
 class AdminController extends Controller
