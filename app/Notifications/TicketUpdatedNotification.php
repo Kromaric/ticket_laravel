@@ -6,6 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use App\Mail\GenericNotificationMail;
+use Illuminate\Mail\Mailable;
 
 class TicketUpdatedNotification extends Notification
 {
@@ -32,15 +34,14 @@ class TicketUpdatedNotification extends Notification
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(object $notifiable): MailMessage
+    public function toMail(object $notifiable): Mailable
     {
-        return (new MailMessage)
-            ->subject("Mise à jour du ticket #{$this->ticket->id}")
-            ->line("Bonjour {$notifiable->name},")
-            ->line("Le ticket intitulé « {$this->ticket->title} » a été mis à jour.")
-            ->line("Statut actuel : {$this->ticket->status}")
-            ->action('Voir le ticket', url("/tickets/{$this->ticket->id}"))
-            ->line('Merci pour votre confiance.');
+        return new GenericNotificationMail(
+            "Mise à jour du ticket #{$this->ticket->id}",
+            "Bonjour {$notifiable->name},\n\nLe ticket #{$this->ticket->id} : {$this->ticket->title} a été mis à jour.\n\nStatut actuel : {$this->ticket->status}",
+            url("/tickets/{$this->ticket->id}"),
+            $notifiable->email
+        );
     }
 
     /**

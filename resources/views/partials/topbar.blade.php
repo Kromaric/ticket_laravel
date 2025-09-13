@@ -81,7 +81,7 @@
                         };
                     @endphp
 
-                    <a class="dropdown-item d-flex align-items-center" href="{{ url('/tickets/' . ($notification->data['ticket_id'] ?? '')) }}">
+                    <a class="dropdown-item d-flex align-items-center" href="{{ url('/ticket/' . ($notification->data['ticket_id'] ?? '')) }}">
                         <div class="mr-3">
                             <div class="icon-circle {{ $bgColor }}">
                                 <i class="fas {{ $icon }} text-white"></i>

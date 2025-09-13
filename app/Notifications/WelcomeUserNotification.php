@@ -6,6 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use App\Mail\GenericNotificationMail;
+use Illuminate\Mail\Mailable;
 
 class WelcomeUserNotification extends Notification
 {
@@ -32,14 +34,14 @@ class WelcomeUserNotification extends Notification
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(object $notifiable): MailMessage
+    public function toMail(object $notifiable): Mailable
     {
-        return (new MailMessage)
-        ->subject('Bienvenue sur TicketApp !')
-        ->line("Bonjour {$notifiable->name},")
-        ->line("Ton compte a bien été créé. Tu peux maintenant accéder à ton espace personnel.")
-        ->action('Accéder au profil', url('/profile'))
-        ->line('Merci de nous rejoindre !');
+        return new GenericNotificationMail(
+            'Bienvenue sur TicketApp !',
+            "Bonjour {$notifiable->name},\n\nTon compte a bien été créé. Tu peux maintenant accéder à ton espace personnel.",
+            url('/profile'),
+            $notifiable->email
+        );
     }
 
 

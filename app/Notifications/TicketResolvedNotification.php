@@ -6,6 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use App\Mail\GenericNotificationMail;
+use Illuminate\Mail\Mailable;
 
 class TicketResolvedNotification extends Notification
 {
@@ -32,14 +34,16 @@ class TicketResolvedNotification extends Notification
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(object $notifiable): MailMessage
+    public function toMail(object $notifiable): Mailable
     {
-        return (new MailMessage)
-            ->subject('Votre ticket a été résolu')
-            ->line("Bonjour {$notifiable->name},")
-            ->line("Votre ticket #{$this->ticket->id} a été résolu avec succès.")
-            ->action('Voir le ticket', url("/tickets/{$this->ticket->id}"));
+        return new GenericNotificationMail(
+            'Votre ticket a été résolu',
+            "Bonjour {$notifiable->name},\nVotre ticket #{$this->ticket->id} : {$this->ticket->title} a été résolu avec succès.",
+            url("/tickets/{$this->ticket->id}"),
+            $notifiable->email
+        );
     }
+    
 
     /**
      * Get the array representation of the notification.

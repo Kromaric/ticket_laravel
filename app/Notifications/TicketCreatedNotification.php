@@ -6,6 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use App\Mail\GenericNotificationMail;
+use Illuminate\Mail\Mailable;
+
 
 class TicketCreatedNotification extends Notification
 {
@@ -32,13 +35,17 @@ class TicketCreatedNotification extends Notification
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(object $notifiable): MailMessage
+    public function toMail(object $notifiable): Mailable
     {
-        return (new MailMessage)
-            ->subject('Nouveau ticket créé')
-            ->line("Votre ticket #{$this->ticket->id} a été créé avec succès.")
-            ->action('Voir le ticket', url("/tickets/{$this->ticket->id}"));
+        return new GenericNotificationMail(
+            'Nouveau ticket créé',
+            "Votre ticket #{$this->ticket->id}: {$this->ticket->title} a été créé avec succès.",
+            url("/tickets/{$this->ticket->id}"),
+            $notifiable->email
+
+        );
     }
+
 
     /**
      * Get the array representation of the notification.

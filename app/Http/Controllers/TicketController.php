@@ -122,7 +122,7 @@ class TicketController extends Controller
             Notification::send($admins, new TicketResolvedNotification($ticket));
         }
 
-        return redirect()->route('ticket.index')->with('success', 'Ticket fermé avec succès.');
+        return redirect()->back()->with('success', 'Ticket fermé avec succès.');
     }
 
     public function open(Ticket $ticket)
@@ -133,7 +133,7 @@ class TicketController extends Controller
             $ticket->save();
         }
         $ticket->user->notify(new TicketOpenedNotification($ticket));
-        return redirect()->route('ticket.index')->with('success', 'Ticket ouvert avec succès.');
+        return redirect()->back()->with('success', 'Ticket ouvert avec succès.');
     }
 
     public function show(Ticket $ticket)
