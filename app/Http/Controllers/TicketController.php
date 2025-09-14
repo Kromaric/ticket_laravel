@@ -11,6 +11,7 @@ use App\Notifications\TicketOpenedNotification;
 use App\Notifications\TicketResolvedNotification;
 use Illuminate\Support\Facades\Notification;
 use App\Models\User;
+use App\Services\ActivityLogger;
 
 
 class TicketController extends Controller
@@ -78,8 +79,14 @@ class TicketController extends Controller
         $ticket->duree = $request->duree;
         $ticket->status = $request->status;
         $ticket->save();
+
+        // Log l'événement de création de ticket ici
+        ActivityLogger::ticketCreated($ticket);
+
+        // Envoi de notifications
         auth()->user()->notify(new TicketCreatedNotification($ticket));
         Notification::send($admins, new TicketCreatedNotification($ticket));
+
         return redirect()->route('ticket.index');
     }
 
@@ -104,9 +111,15 @@ class TicketController extends Controller
         $ticket->duree = $request->duree;
         $ticket->status = $request->status;
         $ticket->save();
+
+        // Log l'événement de mise à jour de ticket ici
+        ActivityLogger::ticketUpdated($ticket);
+
+        // Envoi de notifications
         $ticket->user->notify(new TicketUpdatedNotification($ticket));
         $admins = User::where('role', 'admin')->get();
         Notification::send($admins, new TicketUpdatedNotification($ticket));
+
         return redirect()->route('ticket.index');
 
     }
@@ -117,6 +130,9 @@ class TicketController extends Controller
         if ($ticket->status !== 'ferme') {
             $ticket->status = 'ferme';
             $ticket->save();
+
+            ActivityLogger::ticketUpdated($ticket);
+
             $ticket->user->notify(new TicketResolvedNotification($ticket));
             $admins = User::where('role', 'admin')->get();
             Notification::send($admins, new TicketResolvedNotification($ticket));
@@ -131,8 +147,12 @@ class TicketController extends Controller
         if ($ticket->status !== 'ouvert') {
             $ticket->status = 'ouvert';
             $ticket->save();
+
+            ActivityLogger::ticketUpdated($ticket);
+
+            $ticket->user->notify(new TicketOpenedNotification($ticket));
+
         }
-        $ticket->user->notify(new TicketOpenedNotification($ticket));
         return redirect()->back()->with('success', 'Ticket ouvert avec succès.');
     }
 
@@ -145,6 +165,7 @@ class TicketController extends Controller
     {
         $this->authorize('delete', $ticket);
         $ticket->delete();
+        ActivityLogger::ticketDeleted($ticket);
         return redirect()->route('ticket.index');
     }
 

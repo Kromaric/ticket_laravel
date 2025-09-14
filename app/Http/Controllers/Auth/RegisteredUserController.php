@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Services\ActivityLogger;
+
 
 class RegisteredUserController extends Controller
 {
@@ -40,6 +42,8 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        ActivityLogger::userRegistered($user);
 
         event(new Registered($user));
 

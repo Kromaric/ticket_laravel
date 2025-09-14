@@ -10,6 +10,7 @@ use App\Notifications\TicketCreatedNotification;
 use App\Notifications\TicketUpdatedNotification;
 use Illuminate\Support\Facades\Notification;
 use Carbon\Carbon;
+use App\Services\ActivityLogger;
 
 class AdminController extends Controller
 {
@@ -97,9 +98,15 @@ class AdminController extends Controller
         $request->merge(['user_id' => auth()->id()]);
 
         $ticket = Ticket::create($request->only('title', 'description', 'date', 'duree', 'status', 'user_id'));
+
+        // Log l'événement de création de ticket ici
+        ActivityLogger::ticketCreated($ticket);
+
+        // Envoi de notifications
         $admins = User::where('role', 'admin')->get();
         $ticket->user->notify(new TicketCreatedNotification($ticket));
         Notification::send($admins, new TicketCreatedNotification($ticket));
+
         return redirect()->route('admin.tickets.list')->with('success', 'Ticket créé');
     }
 
@@ -122,9 +129,15 @@ class AdminController extends Controller
             'user_id' => 'required|exists:users,id',
         ]);
         $ticket->update($request->only('title', 'description', 'date', 'duree', 'status', 'user_id'));
+
+        // Log l'événement de mise à jour de ticket ici
+        ActivityLogger::ticketUpdated($ticket);
+
+        // Envoi de notifications
         $ticket->user->notify(new TicketUpdatedNotification($ticket));
         $admins = User::where('role', 'admin')->get();
         Notification::send($admins, new TicketUpdatedNotification($ticket));
+
         return redirect()->route('admin.tickets.list')->with('success', 'Ticket mis à jour');
     }
 
@@ -132,6 +145,7 @@ class AdminController extends Controller
     public function destroyTicket(Ticket $ticket)
     {
         $ticket->delete();
+        ActivityLogger::ticketDeleted($ticket);
         return redirect()->route('admin.tickets.list')->with('success', 'Ticket supprimé');
     }
 
@@ -239,6 +253,10 @@ class AdminController extends Controller
             'role' => $request->role,
             'taux_horaire' => $request->taux_horaire,
         ]);
+
+        ActivityLogger::userRegistered($user);
+
+        // Envoi de notification de bienvenue
         $user->notify(new WelcomeUserNotification());
         return redirect()->route('admin.users.list')->with('success', 'Utilisateur créé avec succès');
     }
@@ -258,6 +276,9 @@ class AdminController extends Controller
             'taux_horaire' => 'required|numeric|min:0',
         ]);
         $user->update($request->only('name', 'role', 'taux_horaire'));
+
+        ActivityLogger::userUpdated($user);
+
         return redirect()->route('admin.users.list')->with('success', 'Utilisateur mis à jour');
     }
 
@@ -265,6 +286,7 @@ class AdminController extends Controller
     public function destroyUser(User $user)
     {
         $user->delete();
+        ActivityLogger::userDeleted($user);
         return redirect()->route('admin.users.list')->with('success', 'Utilisateur supprimé');
     }
 
