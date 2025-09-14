@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ActivityLogController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -65,13 +66,16 @@ Route::prefix('admin')->middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/paie', [AdminController::class, 'paie'])->name('admin.paie');
 
-
+    // Gestion des utilisateurs
     Route::get('/users', [AdminController::class, 'users'])->name('admin.users.list');
     Route::get('/users/create', [AdminController::class, 'createUser'])->name('admin.users.create');
     Route::post('/users', [AdminController::class, 'storeUser'])->name('admin.users.store');
     Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('admin.users.edit');
     Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('admin.users.update');
     Route::delete('/users/{user}', [AdminController::class, 'destroyUser'])->name('admin.users.destroy');
+
+    // Logs d'activité
+    Route::get('/logs', [ActivityLogController::class, 'index'])->name('admin.logs.index');
 
 });
 

@@ -55,6 +55,7 @@ return [
             'driver' => 'single',
             'path' => storage_path('logs/activity.log'),
             'level' => 'info',
+            'name' => 'activity',
         ],
 
         'stack' => [

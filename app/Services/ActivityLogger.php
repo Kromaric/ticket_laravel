@@ -24,15 +24,6 @@ class ActivityLogger
         ]);
     }
 
-    public static function userUpdated($user)
-    {
-        Log::channel('activity')->info('Utilisateur mis à jour', [
-            'user_id' => $user->id,
-            'email' => $user->email,
-            'timestamp' => now()->toDateTimeString(),
-        ]);
-    }
-
     public static function userLoggedOut($user)
     {
         Log::channel('activity')->info('Deconnexion utilisateur', [
