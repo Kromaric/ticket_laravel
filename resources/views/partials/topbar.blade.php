@@ -51,7 +51,11 @@
                 <i class="fas fa-bell fa-fw"></i>
                 <!-- Counter - Alerts -->
                 <span class="badge badge-danger badge-counter">
-                    {{ auth()->user()->unreadNotifications->count() }}
+                    @auth
+                        {{ auth()->user()->unreadNotifications->count() }}
+                    @else
+                        0
+                    @endauth
                 </span>
             </a>
 
@@ -62,41 +66,47 @@
                     Centre de notifications
                 </h6>
 
-                @forelse(auth()->user()->unreadNotifications->take(5) as $notification)
-                    @php
-                        $type = $notification->data['type'] ?? 'info';
-                        $icon = match($type) {
-                            'created' => 'fa-plus',
-                            'resolved' => 'fa-check',
-                            'updated' => 'fa-edit',
-                            'welcome' => 'fa-user',
-                            default => 'fa-info',
-                        };
-                        $bgColor = match($type) {
-                            'created' => 'bg-primary',
-                            'resolved' => 'bg-success',
-                            'updated' => 'bg-warning',
-                            'welcome' => 'bg-info',
-                            default => 'bg-secondary',
-                        };
-                    @endphp
+                @auth
+                    @forelse(auth()->user()->unreadNotifications->take(5) as $notification)
+                        @php
+                            $type = $notification->data['type'] ?? 'info';
+                            $icon = match($type) {
+                                'created' => 'fa-plus',
+                                'resolved' => 'fa-check',
+                                'updated' => 'fa-edit',
+                                'welcome' => 'fa-user',
+                                default => 'fa-info',
+                            };
+                            $bgColor = match($type) {
+                                'created' => 'bg-primary',
+                                'resolved' => 'bg-success',
+                                'updated' => 'bg-warning',
+                                'welcome' => 'bg-info',
+                                default => 'bg-secondary',
+                            };
+                        @endphp
 
-                    <a class="dropdown-item d-flex align-items-center" href="{{ url('/ticket/' . ($notification->data['ticket_id'] ?? '')) }}">
-                        <div class="mr-3">
-                            <div class="icon-circle {{ $bgColor }}">
-                                <i class="fas {{ $icon }} text-white"></i>
+                        <a class="dropdown-item d-flex align-items-center" href="{{ url('/ticket/' . ($notification->data['ticket_id'] ?? '')) }}">
+                            <div class="mr-3">
+                                <div class="icon-circle {{ $bgColor }}">
+                                    <i class="fas {{ $icon }} text-white"></i>
+                                </div>
                             </div>
+                            <div>
+                                <div class="small text-gray-500">{{ $notification->created_at->format('d M Y') }}</div>
+                                <span class="font-weight-bold">{{ $notification->data['message'] ?? 'Nouvelle notification' }}</span>
+                            </div>
+                        </a>
+                    @empty
+                        <div class="dropdown-item text-center small text-gray-500">
+                            Aucune nouvelle notification
                         </div>
-                        <div>
-                            <div class="small text-gray-500">{{ $notification->created_at->format('d M Y') }}</div>
-                            <span class="font-weight-bold">{{ $notification->data['message'] ?? 'Nouvelle notification' }}</span>
-                        </div>
-                    </a>
-                @empty
+                    @endforelse
+                @else
                     <div class="dropdown-item text-center small text-gray-500">
-                        Aucune nouvelle notification
+                        Connectez-vous pour voir vos notifications
                     </div>
-                @endforelse
+                @endauth
 
                 <a class="dropdown-item text-center small text-gray-500" href="{{ route('notifications.index') }}">
                     Voir toutes les notifications
@@ -140,8 +150,11 @@
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
-                <img class="img-profile rounded-circle"  src="{{ Auth::user()->avatar_url ?? asset('img/undraw_profile.svg') }}">
+                @auth
+                    <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
+                    <img class="img-profile rounded-circle"  src="{{ Auth::user()->avatar_url ?? asset('img/undraw_profile.svg') }}">
+                @endauth
+
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

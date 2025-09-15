@@ -28,9 +28,6 @@ class ActivityLogReader
                 ];
 
             }
-            else {
-                Log::channel('activity')->warning('Log non parsé', ['line' => $line]);
-            }
 
             if (count($logs) >= $limit) break;
         }
