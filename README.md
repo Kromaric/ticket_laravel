@@ -24,18 +24,20 @@ TICKET APP est une application Laravel conçue pour gérer les tickets de suppor
 -   MySQL : Base de données
 
 ## Installation
-
+ ```bash
 git clone https://github.com/Kromaric/ticket_laravel.git
 cd ticket_laravel
 composer install
 npm install && npm run dev
 cp .env.example .env
 php artisan key:generate
+ ```
 
 Configure ta base de données dans .env, puis :
+ ```bash
 php artisan migrate
 php artisan storage:link
-
+ ```
 ## Authentification
 
 L’application utilise Laravel Breeze pour gérer :
@@ -77,7 +79,8 @@ L’application envoie des emails pour :
 
 -   Vérification d’adresse
 -   Réinitialisation du mot de passe
-    Assure-toi de configurer ton service mail dans .env :
+    configurer ton service mail dans .env :
+    ```bash
     MAIL_MAILER=smtp
     MAIL_HOST=smtp.mailtrap.io
     MAIL_PORT=2525
@@ -85,6 +88,7 @@ L’application envoie des emails pour :
     MAIL_PASSWORD=...
     MAIL_FROM_ADDRESS="noreply@monapp.com"
     MAIL_FROM_NAME="Ticket App"
+     ```
 
 ## Tests
 
@@ -92,15 +96,15 @@ Tu peux lancer les tests avec :
 php artisan test
 
 ## Routes utiles
-
-| | |
-| /login | |
-| /register | |
-| /dashboard | |
-| /profile | |
-| /tickets | |
-| /email/verify | |
-| /forgot-password | |
+ ```bash
+| /login 
+| /register 
+| /dashboard 
+| /profile
+| /tickets 
+| /email/verify 
+| /forgot-password
+ ```
 
 ## Aperçu visuel
 
